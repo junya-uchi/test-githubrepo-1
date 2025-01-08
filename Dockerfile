@@ -1,12 +1,13 @@
-# Amazon Linux 2をベースイメージとして使用
+# Amazon Linuxをベースイメージとして使用
 FROM amazonlinux:2
-# 必要なパッケージのインストール
+
+# 必要なパッケージをインストール
 RUN yum update -y && \
-   yum install -y httpd \
-   yum clean all
-# タイムゾーンの設定（例：東京）
-RUN yum install -y tzdata && \
-   cp /usr/share/zoneinfo/Asia/Tokyo /etc/localtime && \
-   echo "Asia/Tokyo" > /etc/timezone
-# Apacheをフォアグラウンドで実行
+    yum install -y httpd && \
+    yum clean all
+
+# Apacheがリッスンするポート80を公開
+EXPOSE 80
+
+# コンテナ起動時にApacheをフォアグラウンドで実行
 CMD ["/usr/sbin/httpd", "-D", "FOREGROUND"]
